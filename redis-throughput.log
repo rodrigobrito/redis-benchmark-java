@@ -1,316 +1,688 @@
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.jedisSimpleGet
 
-# Run progress: 0.00% complete, ETA 00:12:00
+# Run progress: 0.00% complete, ETA 00:02:12
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 8.873 ops/ms
-# Warmup Iteration   2: 9.107 ops/ms
-# Warmup Iteration   3: 9.039 ops/ms
-# Warmup Iteration   4: 8.963 ops/ms
-# Warmup Iteration   5: 8.944 ops/ms
-# Warmup Iteration   6: 8.957 ops/ms
-# Warmup Iteration   7: 8.989 ops/ms
-# Warmup Iteration   8: 8.563 ops/ms
-# Warmup Iteration   9: 8.155 ops/ms
-# Warmup Iteration  10: 8.414 ops/ms
-Iteration   1: 8.307 ops/ms
-Iteration   2: 8.321 ops/ms
-Iteration   3: 8.230 ops/ms
-Iteration   4: 8.361 ops/ms
-Iteration   5: 8.416 ops/ms
-Iteration   6: 8.339 ops/ms
-Iteration   7: 8.409 ops/ms
-Iteration   8: 8.492 ops/ms
-Iteration   9: 8.411 ops/ms
-Iteration  10: 8.486 ops/ms
-Iteration  11: 8.483 ops/ms
-Iteration  12: 8.485 ops/ms
-Iteration  13: 8.483 ops/ms
-Iteration  14: 8.469 ops/ms
-Iteration  15: 8.433 ops/ms
-Iteration  16: 8.391 ops/ms
-Iteration  17: 8.423 ops/ms
-Iteration  18: 8.498 ops/ms
-Iteration  19: 8.436 ops/ms
-Iteration  20: 8.491 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.jedisSimpleGet":
-  8.418 ±(99.9%) 0.065 ops/ms [Average]
-  (min, avg, max) = (8.230, 8.418, 8.498), stdev = 0.074
-  CI (99.9%): [8.354, 8.483] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleGet_jmhTest.jedisSimpleGet_Throughput(RedisBenchmark_jedisSimpleGet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.jedisSimpleSet
 
-# Run progress: 16.67% complete, ETA 00:10:15
+# Run progress: 8.33% complete, ETA 00:12:48
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 8.401 ops/ms
-# Warmup Iteration   2: 8.477 ops/ms
-# Warmup Iteration   3: 8.457 ops/ms
-# Warmup Iteration   4: 8.359 ops/ms
-# Warmup Iteration   5: 8.587 ops/ms
-# Warmup Iteration   6: 8.543 ops/ms
-# Warmup Iteration   7: 8.126 ops/ms
-# Warmup Iteration   8: 7.122 ops/ms
-# Warmup Iteration   9: 7.734 ops/ms
-# Warmup Iteration  10: 7.870 ops/ms
-Iteration   1: 8.011 ops/ms
-Iteration   2: 7.951 ops/ms
-Iteration   3: 7.605 ops/ms
-Iteration   4: 8.009 ops/ms
-Iteration   5: 7.991 ops/ms
-Iteration   6: 8.009 ops/ms
-Iteration   7: 7.613 ops/ms
-Iteration   8: 8.061 ops/ms
-Iteration   9: 7.693 ops/ms
-Iteration  10: 7.992 ops/ms
-Iteration  11: 8.181 ops/ms
-Iteration  12: 8.140 ops/ms
-Iteration  13: 7.054 ops/ms
-Iteration  14: 6.126 ops/ms
-Iteration  15: 3.629 ops/ms
-Iteration  16: 5.308 ops/ms
-Iteration  17: 5.908 ops/ms
-Iteration  18: 2.318 ops/ms
-Iteration  19: 4.083 ops/ms
-Iteration  20: 7.509 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.jedisSimpleSet":
-  6.860 ±(99.9%) 1.510 ops/ms [Average]
-  (min, avg, max) = (2.318, 6.860, 8.181), stdev = 1.739
-  CI (99.9%): [5.350, 8.369] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleSet_jmhTest.jedisSimpleSet_Throughput(RedisBenchmark_jedisSimpleSet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncGet
 
-# Run progress: 33.33% complete, ETA 00:08:06
+# Run progress: 16.67% complete, ETA 00:05:49
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 2.255 ops/ms
-# Warmup Iteration   2: 3.669 ops/ms
-# Warmup Iteration   3: 4.652 ops/ms
-# Warmup Iteration   4: 5.219 ops/ms
-# Warmup Iteration   5: 5.231 ops/ms
-# Warmup Iteration   6: 5.231 ops/ms
-# Warmup Iteration   7: 5.032 ops/ms
-# Warmup Iteration   8: 5.063 ops/ms
-# Warmup Iteration   9: 5.099 ops/ms
-# Warmup Iteration  10: 4.276 ops/ms
-Iteration   1: 4.443 ops/ms
-Iteration   2: 4.452 ops/ms
-Iteration   3: 4.464 ops/ms
-Iteration   4: 4.368 ops/ms
-Iteration   5: 4.376 ops/ms
-Iteration   6: 4.445 ops/ms
-Iteration   7: 4.418 ops/ms
-Iteration   8: 4.395 ops/ms
-Iteration   9: 4.411 ops/ms
-Iteration  10: 4.382 ops/ms
-Iteration  11: 4.259 ops/ms
-Iteration  12: 4.382 ops/ms
-Iteration  13: 5.011 ops/ms
-Iteration  14: 5.055 ops/ms
-Iteration  15: 4.934 ops/ms
-Iteration  16: 5.032 ops/ms
-Iteration  17: 5.046 ops/ms
-Iteration  18: 4.593 ops/ms
-Iteration  19: 4.293 ops/ms
-Iteration  20: 4.248 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncGet":
-  4.550 ±(99.9%) 0.249 ops/ms [Average]
-  (min, avg, max) = (4.248, 4.550, 5.055), stdev = 0.286
-  CI (99.9%): [4.302, 4.799] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.lettuceSimpleAsyncGet_Throughput(RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncSet
 
-# Run progress: 50.00% complete, ETA 00:06:03
+# Run progress: 25.00% complete, ETA 00:03:29
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 3.601 ops/ms
-# Warmup Iteration   2: 3.948 ops/ms
-# Warmup Iteration   3: 3.938 ops/ms
-# Warmup Iteration   4: 3.916 ops/ms
-# Warmup Iteration   5: 3.925 ops/ms
-# Warmup Iteration   6: 3.938 ops/ms
-# Warmup Iteration   7: 3.802 ops/ms
-# Warmup Iteration   8: 3.904 ops/ms
-# Warmup Iteration   9: 3.895 ops/ms
-# Warmup Iteration  10: 3.886 ops/ms
-Iteration   1: 3.837 ops/ms
-Iteration   2: 3.889 ops/ms
-Iteration   3: 3.952 ops/ms
-Iteration   4: 3.940 ops/ms
-Iteration   5: 3.947 ops/ms
-Iteration   6: 3.080 ops/ms
-Iteration   7: 3.835 ops/ms
-Iteration   8: 3.963 ops/ms
-Iteration   9: 3.905 ops/ms
-Iteration  10: 3.924 ops/ms
-Iteration  11: 3.889 ops/ms
-Iteration  12: 3.840 ops/ms
-Iteration  13: 3.889 ops/ms
-Iteration  14: 3.966 ops/ms
-Iteration  15: 3.912 ops/ms
-Iteration  16: 3.866 ops/ms
-Iteration  17: 3.783 ops/ms
-Iteration  18: 3.909 ops/ms
-Iteration  19: 3.847 ops/ms
-Iteration  20: 3.955 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncSet":
-  3.856 ±(99.9%) 0.165 ops/ms [Average]
-  (min, avg, max) = (3.080, 3.856, 3.966), stdev = 0.189
-  CI (99.9%): [3.692, 4.021] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.lettuceSimpleAsyncSet_Throughput(RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveGet
 
-# Run progress: 66.67% complete, ETA 00:04:01
+# Run progress: 33.33% complete, ETA 00:02:19
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 3.569 ops/ms
-# Warmup Iteration   2: 3.994 ops/ms
-# Warmup Iteration   3: 3.896 ops/ms
-# Warmup Iteration   4: 3.961 ops/ms
-# Warmup Iteration   5: 4.439 ops/ms
-# Warmup Iteration   6: 5.170 ops/ms
-# Warmup Iteration   7: 5.200 ops/ms
-# Warmup Iteration   8: 5.189 ops/ms
-# Warmup Iteration   9: 5.194 ops/ms
-# Warmup Iteration  10: 5.180 ops/ms
-Iteration   1: 5.171 ops/ms
-Iteration   2: 5.172 ops/ms
-Iteration   3: 5.171 ops/ms
-Iteration   4: 5.168 ops/ms
-Iteration   5: 5.181 ops/ms
-Iteration   6: 5.169 ops/ms
-Iteration   7: 5.163 ops/ms
-Iteration   8: 5.247 ops/ms
-Iteration   9: 5.162 ops/ms
-Iteration  10: 5.192 ops/ms
-Iteration  11: 5.180 ops/ms
-Iteration  12: 5.164 ops/ms
-Iteration  13: 5.190 ops/ms
-Iteration  14: 5.171 ops/ms
-Iteration  15: 5.180 ops/ms
-Iteration  16: 5.182 ops/ms
-Iteration  17: 5.193 ops/ms
-Iteration  18: 5.251 ops/ms
-Iteration  19: 5.250 ops/ms
-Iteration  20: 5.183 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveGet":
-  5.187 ±(99.9%) 0.025 ops/ms [Average]
-  (min, avg, max) = (5.162, 5.187, 5.251), stdev = 0.028
-  CI (99.9%): [5.162, 5.212] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.lettuceSimpleReactiveGet_Throughput(RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\lib\idea_rt.jar=24470:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\bin -Dfile.encoding=UTF-8
-# Warmup: 10 iterations, 10 s each
-# Measurement: 20 iterations, 1000 ms each
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
 # Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveSet
 
-# Run progress: 83.33% complete, ETA 00:02:00
+# Run progress: 41.67% complete, ETA 00:01:37
 # Fork: N/A, test runs in the host VM
 # *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
 # *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
-# Warmup Iteration   1: 4.954 ops/ms
-# Warmup Iteration   2: 5.080 ops/ms
-# Warmup Iteration   3: 5.081 ops/ms
-# Warmup Iteration   4: 5.082 ops/ms
-# Warmup Iteration   5: 5.101 ops/ms
-# Warmup Iteration   6: 5.121 ops/ms
-# Warmup Iteration   7: 4.989 ops/ms
-# Warmup Iteration   8: 5.118 ops/ms
-# Warmup Iteration   9: 5.046 ops/ms
-# Warmup Iteration  10: 5.055 ops/ms
-Iteration   1: 5.062 ops/ms
-Iteration   2: 5.064 ops/ms
-Iteration   3: 5.062 ops/ms
-Iteration   4: 4.752 ops/ms
-Iteration   5: 4.950 ops/ms
-Iteration   6: 4.835 ops/ms
-Iteration   7: 4.817 ops/ms
-Iteration   8: 4.784 ops/ms
-Iteration   9: 4.611 ops/ms
-Iteration  10: 4.154 ops/ms
-Iteration  11: 3.995 ops/ms
-Iteration  12: 4.326 ops/ms
-Iteration  13: 4.210 ops/ms
-Iteration  14: 3.883 ops/ms
-Iteration  15: 4.199 ops/ms
-Iteration  16: 4.356 ops/ms
-Iteration  17: 4.470 ops/ms
-Iteration  18: 4.434 ops/ms
-Iteration  19: 4.445 ops/ms
-Iteration  20: 4.387 ops/ms
+# Warmup Iteration   1: <failure>
 
-Result "br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveSet":
-  4.540 ±(99.9%) 0.314 ops/ms [Average]
-  (min, avg, max) = (3.883, 4.540, 5.064), stdev = 0.362
-  CI (99.9%): [4.225, 4.854] (assumes normal distribution)
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.lettuceSimpleReactiveSet_Throughput(RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.java:71)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
 
 
-# Run complete. Total time: 00:12:03
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.jedisSimpleGet
+
+# Run progress: 50.00% complete, ETA 00:01:09
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleGet_jmhTest.jedisSimpleGet_AverageTime(RedisBenchmark_jedisSimpleGet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.jedisSimpleSet
+
+# Run progress: 58.33% complete, ETA 00:00:49
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_jedisSimpleSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_jedisSimpleSet_jmhTest.jedisSimpleSet_AverageTime(RedisBenchmark_jedisSimpleSet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncGet
+
+# Run progress: 66.67% complete, ETA 00:00:34
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.lettuceSimpleAsyncGet_AverageTime(RedisBenchmark_lettuceSimpleAsyncGet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleAsyncSet
+
+# Run progress: 75.00% complete, ETA 00:00:23
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.lettuceSimpleAsyncSet_AverageTime(RedisBenchmark_lettuceSimpleAsyncSet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveGet
+
+# Run progress: 83.33% complete, ETA 00:00:13
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveGet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.lettuceSimpleReactiveGet_AverageTime(RedisBenchmark_lettuceSimpleReactiveGet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# JMH version: 1.21
+# VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
+# VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:27231,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.6262.58\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
+# Warmup: 1 iterations, 10 s each
+# Measurement: 1 iterations, 1000 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: br.com.viavarejo.RedisBenchmark.lettuceSimpleReactiveSet
+
+# Run progress: 91.67% complete, ETA 00:00:06
+# Fork: N/A, test runs in the host VM
+# *** WARNING: Non-forked runs may silently omit JVM options, mess up profilers, disable compiler hints, etc. ***
+# *** WARNING: Use non-forked runs only for debugging purposes, not for actual performance runs. ***
+# Warmup Iteration   1: <failure>
+
+redis.clients.jedis.exceptions.JedisDataException: ERR This instance has cluster support disabled
+	at redis.clients.jedis.Protocol.processError(Protocol.java:127)
+	at redis.clients.jedis.Protocol.process(Protocol.java:161)
+	at redis.clients.jedis.Protocol.read(Protocol.java:215)
+	at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:340)
+	at redis.clients.jedis.Connection.getRawObjectMultiBulkReply(Connection.java:285)
+	at redis.clients.jedis.Connection.getObjectMultiBulkReply(Connection.java:291)
+	at redis.clients.jedis.Jedis.clusterSlots(Jedis.java:3376)
+	at redis.clients.jedis.JedisClusterInfoCache.discoverClusterNodesAndSlots(JedisClusterInfoCache.java:54)
+	at redis.clients.jedis.JedisClusterConnectionHandler.initializeSlotsCache(JedisClusterConnectionHandler.java:39)
+	at redis.clients.jedis.JedisClusterConnectionHandler.<init>(JedisClusterConnectionHandler.java:17)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:20)
+	at redis.clients.jedis.JedisSlotBasedConnectionHandler.<init>(JedisSlotBasedConnectionHandler.java:15)
+	at redis.clients.jedis.BinaryJedisCluster.<init>(BinaryJedisCluster.java:41)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:83)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:70)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:66)
+	at redis.clients.jedis.JedisCluster.<init>(JedisCluster.java:62)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisConnection(RedisConnectionManagement.java:121)
+	at br.com.viavarejo.RedisConnectionManagement.getJedisConnection(RedisConnectionManagement.java:130)
+	at br.com.viavarejo.RedisConnectionManagement.createJedisCommands(RedisConnectionManagement.java:135)
+	at br.com.viavarejo.RedisBenchmark.setup(RedisBenchmark.java:27)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveSet_jmhTest._jmh_tryInit_f_redisbenchmark0_0(RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.java:334)
+	at br.com.viavarejo.generated.RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.lettuceSimpleReactiveSet_AverageTime(RedisBenchmark_lettuceSimpleReactiveSet_jmhTest.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:453)
+	at org.openjdk.jmh.runner.BenchmarkHandler$BenchmarkTask.call(BenchmarkHandler.java:437)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:514)
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1135)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+
+
+# Run complete. Total time: 00:01:09
 
 REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
 why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
@@ -318,10 +690,4 @@ experiments, perform baseline and negative tests that provide experimental contr
 the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
 Do not assume the numbers tell you what you want them to tell.
 
-Benchmark                                 Mode  Cnt  Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt   20  8.418 ± 0.065  ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt   20  6.860 ± 1.510  ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt   20  4.550 ± 0.249  ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt   20  3.856 ± 0.165  ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt   20  5.187 ± 0.025  ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt   20  4.540 ± 0.314  ops/ms
+Benchmark  Mode  Cnt  Score   Error  Units

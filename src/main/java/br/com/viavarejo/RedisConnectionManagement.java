@@ -5,6 +5,7 @@ import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
+import io.lettuce.core.api.reactive.RedisStringReactiveCommands;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.RedisClusterClient;
@@ -21,7 +22,7 @@ import java.util.*;
 public final class RedisConnectionManagement {
     private static final RedisConnectionManagement connectionManagement = new RedisConnectionManagement();
     private Boolean lettuceCluster = false;
-    private StatefulConnection lettuceConnection;
+    private StatefulConnection<String, String> lettuceConnection;
     private JedisCommands jedisCommands;
 
     private RedisConnectionManagement() {
@@ -46,7 +47,7 @@ public final class RedisConnectionManagement {
     private List<RedisURI> getRedisUris() {
         String redisConnection = getConnectionString();
         List<RedisURI> uris = new ArrayList<>();
-        String[] nodes = redisConnection.split("/");
+        String[] nodes = redisConnection.split(",");
         for (String node : nodes) {
             String[] hostAndPort = node.split(":");
             String host = hostAndPort[0];
@@ -57,66 +58,94 @@ public final class RedisConnectionManagement {
         return uris;
     }
 
-    private StatefulConnection createLettuceConnection() {
-        List<RedisURI> uris = getRedisUris();
+    private StatefulConnection<String, String> createLettuceConnection() {
+        try {
+            List<RedisURI> uris = getRedisUris();
 
-        if (uris.size() == 1) {
-            RedisClient client = RedisClient.create(uris.get(0));
-            lettuceCluster = false;
-            return client.connect();
+            if (uris.size() == 1) {
+                RedisClient client = RedisClient.create(uris.get(0));
+                lettuceCluster = false;
+                return client.connect();
+            }
+
+            lettuceCluster = true;
+
+            RedisClusterClient clusterClient = RedisClusterClient.create(uris);
+            ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+                    .enablePeriodicRefresh()
+                    .build();
+
+            clusterClient.setOptions(ClusterClientOptions.builder()
+                    .topologyRefreshOptions(topologyRefreshOptions)
+                    .build());
+
+            return clusterClient.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
-
-        lettuceCluster = true;
-
-        RedisClusterClient clusterClient = RedisClusterClient.create(uris);
-        ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-                .enablePeriodicRefresh()
-                .build();
-        clusterClient.setOptions(ClusterClientOptions.builder()
-                .topologyRefreshOptions(topologyRefreshOptions)
-                .build());
-
-        return clusterClient.connect();
     }
 
-    private RedisStringAsyncCommands<String, String> getLettuceStringAsyncCommands() {
+    private StatefulConnection<String, String> getLettuceConnection() {
         if (lettuceConnection == null) {
             lettuceConnection = createLettuceConnection();
         }
+        return lettuceConnection;
+    }
+
+    private RedisStringAsyncCommands<String, String> getLettuceStringAsyncCommands() {
         if (lettuceCluster) {
-            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) lettuceConnection);
+            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) getLettuceConnection());
             return cluster.async();
         }
-        StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) lettuceConnection);
+        StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());
         return defaultConnection.async();
     }
 
-    private JedisCommands getJedisConnection() {
-        List<RedisURI> uris = getRedisUris();
-        if (uris.size() == 1) {
-            RedisURI redisUri = uris.get(0);
-            String redisHost = redisUri.getHost();
-            int redisPort = redisUri.getPort();
-            return new Jedis(redisHost, redisPort);
+    private RedisStringReactiveCommands<String, String> getLettuceStringReactiveCommands() {
+        if (lettuceCluster) {
+            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) getLettuceConnection());
+            return cluster.reactive();
         }
-        Set<HostAndPort> jedisClusterNodes = new HashSet<>();
-        for (RedisURI redisUri : uris) {
-            jedisClusterNodes.add(new HostAndPort(redisUri.getHost(), redisUri.getPort()));
-        }
-        return new JedisCluster(jedisClusterNodes);
+        StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());
+        return defaultConnection.reactive();
     }
 
-    public JedisCommands getJedisCommands() {
+    private JedisCommands createJedisConnection() {
+        try {
+            List<RedisURI> uris = getRedisUris();
+            if (uris.size() == 1) {
+                RedisURI redisUri = uris.get(0);
+                String redisHost = redisUri.getHost();
+                int redisPort = redisUri.getPort();
+                return new Jedis(redisHost, redisPort);
+            }
+            Set<HostAndPort> jedisClusterNodes = new HashSet<>();
+            for (RedisURI redisUri : uris) {
+                jedisClusterNodes.add(new HostAndPort(redisUri.getHost(), redisUri.getPort()));
+            }
+            return new JedisCluster(jedisClusterNodes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private JedisCommands getJedisConnection() {
         if (jedisCommands == null)
-            jedisCommands = getJedisConnection();
+            jedisCommands = createJedisConnection();
         return jedisCommands;
     }
 
     public static JedisCommands createJedisCommands() {
-        return connectionManagement.getJedisCommands();
+        return connectionManagement.getJedisConnection();
     }
 
     public static RedisStringAsyncCommands<String, String> createLettuceStringAsyncCommands() {
         return connectionManagement.getLettuceStringAsyncCommands();
+    }
+
+    public static RedisStringReactiveCommands<String, String> createLettuceStringReactiveCommands() {
+        return connectionManagement.getLettuceStringReactiveCommands();
     }
 }
