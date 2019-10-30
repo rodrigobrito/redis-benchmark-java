@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Main-Class: br.com.viavarejo.Program
+Class-Path: reactive-streams-1.0.2.jar jedis-2.9.0.jar netty-resolver-4.
+ 1.22.Final.jar netty-handler-4.1.22.Final.jar commons-math3-3.2.jar rea
+ ctor-core-3.1.4.RELEASE.jar commons-io-2.6.jar jopt-simple-4.6.jar jmh-
+ core-1.21.jar netty-transport-4.1.22.Final.jar netty-common-4.1.22.Fina
+ l.jar netty-buffer-4.1.22.Final.jar netty-codec-4.1.22.Final.jar common
+ s-pool2-2.4.2.jar lettuce-core-5.0.3.RELEASE.jar
+
