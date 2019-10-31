@@ -21,7 +21,6 @@ import java.util.*;
 
 public final class RedisConnectionManagement {
     private static final RedisConnectionManagement connectionManagement = new RedisConnectionManagement();
-    private Boolean lettuceCluster = false;
     private StatefulConnection<String, String> lettuceConnection;
     private JedisCommands jedisCommands;
 
@@ -64,12 +63,8 @@ public final class RedisConnectionManagement {
 
             if (uris.size() == 1) {
                 RedisClient client = RedisClient.create(uris.get(0));
-                lettuceCluster = false;
                 return client.connect();
             }
-
-            lettuceCluster = true;
-
             RedisClusterClient clusterClient = RedisClusterClient.create(uris);
             ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
                     .enablePeriodicRefresh()
@@ -94,8 +89,9 @@ public final class RedisConnectionManagement {
     }
 
     private RedisStringAsyncCommands<String, String> getLettuceStringAsyncCommands() {
-        if (lettuceCluster) {
-            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) getLettuceConnection());
+        StatefulConnection conn = getLettuceConnection();
+        if (conn instanceof StatefulRedisClusterConnection) {
+            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) conn);
             return cluster.async();
         }
         StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());
@@ -103,8 +99,9 @@ public final class RedisConnectionManagement {
     }
 
     private RedisStringReactiveCommands<String, String> getLettuceStringReactiveCommands() {
-        if (lettuceCluster) {
-            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) getLettuceConnection());
+        StatefulConnection conn = getLettuceConnection();
+        if (conn instanceof StatefulRedisClusterConnection) {
+            StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) conn);
             return cluster.reactive();
         }
         StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());

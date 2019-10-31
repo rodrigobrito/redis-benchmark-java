@@ -19,8 +19,11 @@ public class RedisBenchmark {
     private JedisCommands jedis;
 
     private static Integer jedisSetCount = 0;
+    private static Integer jedisGetCount = 0;
     private static Integer lettuceAsyncSetCount = 0;
-    private static Integer lettuceReactSetCount = 0;
+    private static Integer lettuceAsyncGetCount = 0;
+    private static Integer lettuceReactiveSetCount = 0;
+    private static Integer lettuceReactiveGetCount = 0;
 
     @Setup
     public void setup() {
@@ -29,7 +32,8 @@ public class RedisBenchmark {
 
     @Benchmark
     public String jedisSimpleGet() {
-        return jedis.get("a");
+        jedisGetCount++;
+        return jedis.get(String.format("JedisTest%s", jedisGetCount));
     }
 
     @Benchmark
@@ -42,7 +46,8 @@ public class RedisBenchmark {
     public String lettuceSimpleAsyncGet() {
         String result = null;
         RedisStringAsyncCommands<String, String> async = RedisConnectionManagement.createLettuceStringAsyncCommands();
-        RedisFuture<String> future = async.get("a");
+        lettuceAsyncGetCount++;
+        RedisFuture<String> future = async.get(String.format("lettuceSetAsync%s", lettuceAsyncGetCount));
         try {
             result = future.get();
         } catch (Exception e) {
@@ -54,8 +59,8 @@ public class RedisBenchmark {
     @Benchmark
     public String lettuceSimpleAsyncSet() {
         String result = null;
-        lettuceAsyncSetCount++;
         RedisStringAsyncCommands<String, String> async = RedisConnectionManagement.createLettuceStringAsyncCommands();
+        lettuceAsyncSetCount++;
         RedisFuture<String> future = async.set(String.format("lettuceSetAsync%s", lettuceAsyncSetCount), lettuceAsyncSetCount.toString());
         try {
             result = future.get();
@@ -69,7 +74,8 @@ public class RedisBenchmark {
     public String lettuceSimpleReactiveGet() {
         String result = null;
         RedisStringReactiveCommands<String, String> reactive = RedisConnectionManagement.createLettuceStringReactiveCommands();
-        Mono<String> future = reactive.get("a");
+        lettuceReactiveGetCount++;
+        Mono<String> future = reactive.get(String.format("lettuceSetReactive%s", lettuceReactiveGetCount));
         try {
             result = future.block();
         } catch (Exception e) {
@@ -81,9 +87,9 @@ public class RedisBenchmark {
     @Benchmark
     public String lettuceSimpleReactiveSet() {
         String result = null;
-        lettuceReactSetCount++;
         RedisStringReactiveCommands<String, String> reactive = RedisConnectionManagement.createLettuceStringReactiveCommands();
-        Mono<String> future = reactive.set(String.format("lettuceSetReactive%s", lettuceReactSetCount), lettuceReactSetCount.toString());
+        lettuceReactiveSetCount++;
+        Mono<String> future = reactive.set(String.format("lettuceSetReactive%s", lettuceReactiveSetCount), lettuceReactiveSetCount.toString());
         try {
             result = future.block();
         } catch (Exception e) {
