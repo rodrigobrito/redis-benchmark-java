@@ -3,35 +3,50 @@ Benchmarks of redis clients for JAVA lang
 
 * *Redis clients performance comparison*: compares Jedis with Lettuce (ASYNC / REACTIVE) performance
 
+Requirements
+* *Requires Java 10 to run.
+
 ## how to run the benchmark
 
 To run the benchmarks:
 
+Copy the config.cfg to the folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
+* *Redis Sentinel Connection: redis-sentinel://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
+* *Redis Cluster Connection: redis://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
+* *Redis Standalone Connection: redis://192.168.1.104:6379
+ 
+To simply test connectivity
 ```bash
 mvn clean install
-java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 1
+java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
+```
+
+To run benchmark with 20 iterations to warmup and measurements, 10 threads and 10 forks
+```bash
+mvn clean install
+java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 ```
 
 ## sample benchmark results
 
-Here is some sample benchmark results. It shows that log4j2 logger has x50 throughput compared with slf4j with log4j binding. It also shows that using a primitive long value has more than 3000x throughput than using BigInteger when doing multiplication.
+Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's. 
 
 ```bash
 # Run complete. Total time: 00:02:12
 
-Benchmark                                 Mode  Cnt  Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt       8.227          ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt       5.214          ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt       3.943          ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt       2.840          ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt       4.201          ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt       3.047          ops/ms
-RedisBenchmark.jedisSimpleGet             avgt       0.121           ms/op
-RedisBenchmark.jedisSimpleSet             avgt       0.179           ms/op
-RedisBenchmark.lettuceSimpleAsyncGet      avgt       0.206           ms/op
-RedisBenchmark.lettuceSimpleAsyncSet      avgt       0.295           ms/op
-RedisBenchmark.lettuceSimpleReactiveGet   avgt       0.221           ms/op
-RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.300           ms/op
+Benchmark                                 Mode  Cnt   Score   Error   Units
+RedisBenchmark.jedisSimpleGet            thrpt       10.565          ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt        7.911          ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt        8.338          ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt        7.510          ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt        8.436          ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt        7.328          ops/ms
+RedisBenchmark.jedisSimpleGet             avgt        0.098           ms/op
+RedisBenchmark.jedisSimpleSet             avgt        0.119           ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt        0.120           ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt        0.134           ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt        0.123           ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt        0.135           ms/op
 ```
 
 ## `jmh` command line options
@@ -186,6 +201,4 @@ Usage: java -jar ... [regexp*] [options]
 # references
    1. [jmh official site](http://openjdk.java.net/projects/code-tools/jmh/)
    1. [jmh sample benchmarks](http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/)
-   1. [Introduction to JMH by Mikhail Vorontsov (java-performance.info)](http://java-performance.info/jmh/)
-   1. [Comparison logger performance](http://antoniogoncalves.org/2015/01/15/micro-benchmarking-with-jmh-measure-dont-guess/)
-   1. [Caliper microbenchmark tool from Google](https://github.com/google/caliper/wiki/ProjectHome)
+   1. [Introduction to JMH by Mikhail Vorontsov (java-performance.info)](http://java-performance.info/jmh/)   
