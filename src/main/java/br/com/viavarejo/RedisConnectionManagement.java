@@ -10,29 +10,37 @@ import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.cluster.RedisClusterClient;
 import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
+import io.lettuce.core.codec.Utf8StringCodec;
+import io.lettuce.core.masterslave.MasterSlave;
+import io.lettuce.core.masterslave.StatefulRedisMasterSlaveConnection;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 public final class RedisConnectionManagement {
     private static final RedisConnectionManagement connectionManagement = new RedisConnectionManagement();
     private StatefulConnection<String, String> lettuceConnection;
     private JedisCommands jedisCommands;
+    private Boolean isSentinel = false;
 
     private RedisConnectionManagement() {
     }
 
     private Properties getProperties() {
         Properties prop = new Properties();
-        ClassLoader classLoader = getClass().getClassLoader();
-        try (InputStream inputStream = classLoader.getResourceAsStream("application.properties")) {
-            prop.load(inputStream);
-        } catch (IOException e) {
+        try {
+            File f = new File("config.cfg");
+            if (f.exists()) {
+                prop.load(new FileInputStream("config.cfg"));
+            } else {
+                System.out.println("Please create config.cfg properties file and then execute the program!");
+                System.exit(1);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return prop;
@@ -45,6 +53,9 @@ public final class RedisConnectionManagement {
 
     private List<RedisURI> getRedisUris() {
         String redisConnection = getConnectionString();
+        isSentinel = redisConnection.contains("sentinel");
+        redisConnection = redisConnection.replace("redis-sentinel://", "")
+                .replace("redis://", "");
         List<RedisURI> uris = new ArrayList<>();
         String[] nodes = redisConnection.split(",");
         for (String node : nodes) {
@@ -61,10 +72,19 @@ public final class RedisConnectionManagement {
         try {
             List<RedisURI> uris = getRedisUris();
 
+            // Standalone
             if (uris.size() == 1) {
                 RedisClient client = RedisClient.create(uris.get(0));
                 return client.connect();
             }
+
+            // Sentinel
+            if (isSentinel) {
+                RedisClient redisClient = RedisClient.create();
+                return MasterSlave.connect(redisClient, new Utf8StringCodec(), uris);
+            }
+
+            // Cluster
             RedisClusterClient clusterClient = RedisClusterClient.create(uris);
             ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
                     .enablePeriodicRefresh()
@@ -90,19 +110,32 @@ public final class RedisConnectionManagement {
 
     private RedisStringAsyncCommands<String, String> getLettuceStringAsyncCommands() {
         StatefulConnection conn = getLettuceConnection();
+
         if (conn instanceof StatefulRedisClusterConnection) {
             StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) conn);
             return cluster.async();
         }
+
+        if (conn instanceof StatefulRedisMasterSlaveConnection) {
+            StatefulRedisMasterSlaveConnection<String, String> sentinel = ((StatefulRedisMasterSlaveConnection<String, String>) conn);
+            return sentinel.async();
+        }
+
         StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());
         return defaultConnection.async();
     }
 
     private RedisStringReactiveCommands<String, String> getLettuceStringReactiveCommands() {
         StatefulConnection conn = getLettuceConnection();
+
         if (conn instanceof StatefulRedisClusterConnection) {
             StatefulRedisClusterConnection<String, String> cluster = ((StatefulRedisClusterConnection<String, String>) conn);
             return cluster.reactive();
+        }
+
+        if (conn instanceof StatefulRedisMasterSlaveConnection) {
+            StatefulRedisMasterSlaveConnection<String, String> sentinel = ((StatefulRedisMasterSlaveConnection<String, String>) conn);
+            return sentinel.reactive();
         }
         StatefulRedisConnection<String, String> defaultConnection = ((StatefulRedisConnection<String, String>) getLettuceConnection());
         return defaultConnection.reactive();
