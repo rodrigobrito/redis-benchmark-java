@@ -4,16 +4,16 @@ Benchmarks of redis clients for JAVA lang
 * *Redis clients performance comparison*: compares Jedis with Lettuce (ASYNC / REACTIVE) performance
 
 Requirements
-* *Requires Java 10 to run.
+* *Requires Java 10 to run*.
 
 ## how to run the benchmark
 
 To run the benchmarks:
 
 Copy the config.cfg to the folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
-* *Redis Sentinel Connection: redis-sentinel://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
-* *Redis Cluster Connection: redis://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
-* *Redis Standalone Connection: redis://192.168.1.104:6379
+* *Redis Sentinel Connection: redis-sentinel://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381*
+* *Redis Cluster Connection: redis://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381*
+* *Redis Standalone Connection: redis://192.168.1.104:6379*
  
 To simply test connectivity
 ```bash
@@ -29,8 +29,9 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 
 ## sample benchmark results
 
-Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's. 
+Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and one fork. 
 
+# Simply test java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 ```bash
 # Run complete. Total time: 00:02:12
 
