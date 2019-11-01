@@ -34,8 +34,9 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 
 Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and one fork. 
 
-Simply test:
 ```bash
+#Simply test:
+
 java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 
 # Run complete. Total time: 00:02:12
