@@ -13,16 +13,14 @@ import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import io.lettuce.core.codec.Utf8StringCodec;
 import io.lettuce.core.masterslave.MasterSlave;
 import io.lettuce.core.masterslave.StatefulRedisMasterSlaveConnection;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisCommands;
+import redis.clients.jedis.*;
 
 import java.io.*;
 import java.util.*;
 
 public final class RedisConnectionManagement {
     private static final RedisConnectionManagement connectionManagement = new RedisConnectionManagement();
+    private static final String MASTER_NAME = "mymaster";
     private StatefulConnection<String, String> lettuceConnection;
     private JedisCommands jedisCommands;
     private Boolean isSentinel = false;
@@ -144,12 +142,26 @@ public final class RedisConnectionManagement {
     private JedisCommands createJedisConnection() {
         try {
             List<RedisURI> uris = getRedisUris();
+
+            // Standalone
             if (uris.size() == 1) {
                 RedisURI redisUri = uris.get(0);
                 String redisHost = redisUri.getHost();
                 int redisPort = redisUri.getPort();
                 return new Jedis(redisHost, redisPort);
             }
+
+            // Sentinel
+            if (isSentinel) {
+                Set sentinels = new HashSet();
+                for (RedisURI redisUri : uris) {
+                    sentinels.add(String.format("%s:%s", redisUri.getHost(), redisUri.getPort()));
+                }
+                JedisSentinelPool pool = new JedisSentinelPool(MASTER_NAME, sentinels);
+                return pool.getResource();
+            }
+
+            // Cluster
             Set<HostAndPort> jedisClusterNodes = new HashSet<>();
             for (RedisURI redisUri : uris) {
                 jedisClusterNodes.add(new HostAndPort(redisUri.getHost(), redisUri.getPort()));
