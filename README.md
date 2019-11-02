@@ -1,7 +1,7 @@
 # redis-benchmark-java
 Benchmarks of redis clients for JAVA lang
 
-* *Redis clients performance comparison*: compares Jedis with Lettuce (ASYNC / REACTIVE) performance
+* *Redis clients performance comparison*: compares Jedis with Lettuce "ASYNC / REACTIVE" performance.
 
 Requirements
 * *Requires Java 10 to run*.
@@ -10,21 +10,21 @@ Requirements
 
 To run the benchmarks:
 
-Copy the config.cfg to the folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
-* Redis Sentinel Connection: 
-	- redis-sentinel://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
-* Redis Cluster Connection:
-	- redis://192.168.1.104:6379,192.168.1.113:6380,192.168.1.124:6381
+Copy the config.cfg to the target folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
+* Redis Sentinel Cluster Connection: 
+	- *redis-sentinel://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
+* Redis Sharded Cluster Connection:
+	- *redis://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
 * Redis Standalone Connection: 
-	- redis://192.168.1.104:6379
+	- *redis://192.168.1.104:6379*
  
-To simply test connectivity
+To test connectivity:
 ```bash
 mvn clean install
 java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 ```
 
-To run benchmark with 20 iterations to warmup and measurements, 10 threads and 10 forks
+To run benchmark with 20 iterations to warmup "-wi 20", 20 iterations to measurements "-i 20", 10 threads "-t 10" and 10 forks "-f 10":
 ```bash
 mvn clean install
 java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
