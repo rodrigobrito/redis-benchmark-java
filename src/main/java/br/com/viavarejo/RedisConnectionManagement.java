@@ -22,7 +22,6 @@ public final class RedisConnectionManagement {
     private static final RedisConnectionManagement connectionManagement = new RedisConnectionManagement();
     private StatefulConnection<String, String> lettuceConnection;
     private JedisCommands jedisCommands;
-    private Boolean isSentinel = false;
 
     private RedisConnectionManagement() {
     }
@@ -53,9 +52,13 @@ public final class RedisConnectionManagement {
         return properties.getProperty("redis.sentinel.master.group.name");
     }
 
+    private boolean isSentinel() {
+        String redisConnection = getConnectionString();
+        return redisConnection.contains("sentinel");
+    }
+
     private List<RedisURI> getRedisUris() {
         String redisConnection = getConnectionString();
-        isSentinel = redisConnection.contains("sentinel");
         redisConnection = redisConnection.replace("redis-sentinel://", "")
                 .replace("redis://", "");
         List<RedisURI> uris = new ArrayList<>();
@@ -81,9 +84,16 @@ public final class RedisConnectionManagement {
             }
 
             // Sentinel
-            if (isSentinel) {
-                RedisClient redisClient = RedisClient.create();
-                return MasterSlave.connect(redisClient, new Utf8StringCodec(), uris);
+            if (isSentinel()) {
+                RedisURI firstUri = uris.get(0);
+                RedisURI.Builder builder = RedisURI.Builder.sentinel(firstUri.getHost(), firstUri.getPort(), getSentinelMasterName());
+                for (int i = 1; i < uris.size(); i++) {
+                    RedisURI currentUri = uris.get(i);
+                    builder = builder.withSentinel(currentUri.getHost(), currentUri.getPort());
+                }
+                RedisURI finalUri = builder.build();
+                RedisClient redisClient = RedisClient.create(finalUri);
+                return redisClient.connect();
             }
 
             // Cluster
@@ -156,12 +166,13 @@ public final class RedisConnectionManagement {
             }
 
             // Sentinel
-            if (isSentinel) {
+            if (isSentinel()) {
                 Set sentinels = new HashSet();
                 for (RedisURI redisUri : uris) {
                     sentinels.add(String.format("%s:%s", redisUri.getHost(), redisUri.getPort()));
                 }
-                JedisSentinelPool pool = new JedisSentinelPool(getSentinelMasterName(), sentinels);
+                String masterName = getSentinelMasterName();
+                JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinels);
                 return pool.getResource();
             }
 
