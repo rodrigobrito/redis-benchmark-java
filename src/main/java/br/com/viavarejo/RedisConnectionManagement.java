@@ -50,7 +50,7 @@ public final class RedisConnectionManagement {
 
     private String getSentinelMasterName() {
         Properties properties = getProperties();
-        return properties.getProperty("redis.sentinel.master.name");
+        return properties.getProperty("redis.sentinel.master.group.name");
     }
 
     private List<RedisURI> getRedisUris() {

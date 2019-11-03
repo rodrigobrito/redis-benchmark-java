@@ -13,6 +13,8 @@ To run the benchmarks:
 Copy the config.cfg to the target folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
 * Redis Sentinel Cluster Connection: 
 	- *redis-sentinel://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
+	- *Update redis.sentinel.master.name from config.cfg to sentinel monitor configured in redis-sentinel.conf*
+	    - *Sample: redis.sentinel.master.name=mymaster*
 * Redis Sharded Cluster Connection:
 	- *redis://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
 * Redis Standalone Connection: 
