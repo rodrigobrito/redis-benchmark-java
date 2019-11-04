@@ -40,6 +40,11 @@ public final class BenchmarkConfiguration {
         return properties.getProperty("redis.sentinel.master.group.name");
     }
 
+    public String getKeyContentData() {
+        Properties properties = getProperties();
+        return properties.getProperty("benchmark.key.content.data");
+    }
+
     public boolean isSentinel() {
         String redisConnection = getConnectionString();
         return redisConnection.contains("sentinel");
