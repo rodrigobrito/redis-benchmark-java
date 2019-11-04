@@ -33,8 +33,7 @@ public class RedisBenchmark {
 
     @Setup
     public void setup() {
-        Util util = Util.create();
-        util.createThreeMillionOfKeys();
+        Util.createOneMillionOfKeys();
 
         jedis = JedisConnectionManagement.get();
         lettuce = LettuceConnectionManagement.get();

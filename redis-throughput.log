@@ -1,7 +1,7 @@
 # JMH version: 1.21
 # VM version: JDK 10.0.2, Java HotSpot(TM) 64-Bit Server VM, 10.0.2+13
 # VM invoker: C:\Program Files\Java\jdk-10.0.2\bin\java.exe
-# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:32675,suspend=y,server=n -javaagent:C:\Users\rodri\.IntelliJIdea2019.2\system\captureAgent\debugger-agent.jar -Dfile.encoding=UTF-8
+# VM options: -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:21912,suspend=y,server=n -javaagent:C:\Users\rodri\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\192.7142.36\plugins\java\lib\rt\debugger-agent.jar -Dfile.encoding=UTF-8
 # Warmup: 1 iterations, 10 s each
 # Measurement: 1 iterations, 1000 ms each
 # Timeout: 10 min per iteration
