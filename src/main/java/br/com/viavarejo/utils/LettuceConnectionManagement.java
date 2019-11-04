@@ -1,4 +1,4 @@
-package br.com.viavarejo;
+package br.com.viavarejo.utils;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;

@@ -1,5 +1,8 @@
 package br.com.viavarejo;
 
+import br.com.viavarejo.utils.JedisConnectionManagement;
+import br.com.viavarejo.utils.LettuceConnectionManagement;
+import br.com.viavarejo.utils.Util;
 import io.lettuce.core.RedisFuture;
 import io.lettuce.core.api.async.RedisStringAsyncCommands;
 import io.lettuce.core.api.reactive.RedisStringReactiveCommands;
@@ -39,7 +42,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String jedisSimpleGet() {
-        if (jedisGetCount >= Util.ThreeMillion) {
+        if (jedisGetCount >= Util.OneMillion) {
             jedisGetCount = 0;
         }
         jedisGetCount++;
@@ -54,7 +57,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String lettuceSimpleAsyncGet() {
-        if (lettuceAsyncGetCount >= Util.ThreeMillion) {
+        if (lettuceAsyncGetCount >= Util.OneMillion) {
             lettuceAsyncGetCount = 0;
         }
         lettuceAsyncGetCount++;
@@ -85,7 +88,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String lettuceSimpleReactiveGet() {
-        if (lettuceReactiveGetCount >= Util.ThreeMillion) {
+        if (lettuceReactiveGetCount >= Util.OneMillion) {
             lettuceReactiveGetCount = 0;
         }
         lettuceReactiveGetCount++;
