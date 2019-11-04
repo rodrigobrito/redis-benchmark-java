@@ -34,28 +34,28 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 
 ## sample benchmark results
 
-Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and one fork. 
+Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and 1 fork. 
 
 ```bash
 #Simply test:
 
 java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 
-# Run complete. Total time: 00:02:12
+# Run complete. Total time: 00:02:27
 
-Benchmark                                 Mode  Cnt   Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt       10.565          ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt        7.911          ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt        8.338          ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt        7.510          ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt        8.436          ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt        7.328          ops/ms
-RedisBenchmark.jedisSimpleGet             avgt        0.098           ms/op
-RedisBenchmark.jedisSimpleSet             avgt        0.119           ms/op
-RedisBenchmark.lettuceSimpleAsyncGet      avgt        0.120           ms/op
-RedisBenchmark.lettuceSimpleAsyncSet      avgt        0.134           ms/op
-RedisBenchmark.lettuceSimpleReactiveGet   avgt        0.123           ms/op
-RedisBenchmark.lettuceSimpleReactiveSet   avgt        0.135           ms/op
+Benchmark                                 Mode  Cnt  Score   Error   Units
+RedisBenchmark.jedisSimpleGet            thrpt       5.710          ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt       4.494          ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt       3.680          ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt       8.923          ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt       4.488          ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt       8.928          ops/ms
+RedisBenchmark.jedisSimpleGet             avgt       0.156           ms/op
+RedisBenchmark.jedisSimpleSet             avgt       0.119           ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt       0.225           ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt       0.112           ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt       0.235           ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
 ```
 
 ## `jmh` command line options
