@@ -106,10 +106,12 @@ public final class LettuceConnectionManagement {
         if (conn instanceof StatefulRedisClusterConnection) {
             cluster = ((StatefulRedisClusterConnection<String, String>) conn);
             connectionType = ConnectionType.Cluster;
+            return;
         }
         if (conn instanceof StatefulRedisMasterSlaveConnection) {
             sentinel = ((StatefulRedisMasterSlaveConnection<String, String>) conn);
             connectionType = ConnectionType.Sentinel;
+            return;
         }
         standalone = ((StatefulRedisConnection<String, String>) conn);
         connectionType = connectionType.Standalone;

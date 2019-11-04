@@ -7,6 +7,8 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 public class Program {
     public static void main(String[] args) throws RunnerException {
+        System.out.println("Starting benchmark...");
+
         Options options = new OptionsBuilder()
                 .include(RedisBenchmark.class.getSimpleName())
                 .output("redis-throughput.log")

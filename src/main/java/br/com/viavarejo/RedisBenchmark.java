@@ -1,5 +1,6 @@
 package br.com.viavarejo;
 
+import br.com.viavarejo.utils.BenchmarkConfiguration;
 import br.com.viavarejo.utils.JedisConnectionManagement;
 import br.com.viavarejo.utils.LettuceConnectionManagement;
 import br.com.viavarejo.utils.Util;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Threads(1)
 @State(Scope.Thread)
 @Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
-@OutputTimeUnit(TimeUnit.SECONDS)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class RedisBenchmark {
     private JedisCommands jedis;
     private LettuceConnectionManagement lettuce;
@@ -41,7 +42,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String jedisSimpleGet() {
-        if (jedisGetCount >= Util.OneMillion) {
+        if (jedisGetCount >= BenchmarkConfiguration.get().getAmountOfKeys()) {
             jedisGetCount = 0;
         }
         jedisGetCount++;
@@ -56,7 +57,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String lettuceSimpleAsyncGet() {
-        if (lettuceAsyncGetCount >= Util.OneMillion) {
+        if (lettuceAsyncGetCount >= BenchmarkConfiguration.get().getAmountOfKeys()) {
             lettuceAsyncGetCount = 0;
         }
         lettuceAsyncGetCount++;
@@ -87,7 +88,7 @@ public class RedisBenchmark {
 
     @Benchmark
     public String lettuceSimpleReactiveGet() {
-        if (lettuceReactiveGetCount >= Util.OneMillion) {
+        if (lettuceReactiveGetCount >= BenchmarkConfiguration.get().getAmountOfKeys()) {
             lettuceReactiveGetCount = 0;
         }
         lettuceReactiveGetCount++;

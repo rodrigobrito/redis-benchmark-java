@@ -10,6 +10,7 @@ import java.util.Properties;
 
 public final class BenchmarkConfiguration {
     private static final BenchmarkConfiguration configuration = new BenchmarkConfiguration();
+    private Integer amountOfKeys = 0;
 
     private BenchmarkConfiguration() {
     }
@@ -30,30 +31,39 @@ public final class BenchmarkConfiguration {
         return prop;
     }
 
-    public String getConnectionString() {
+    private String getConnectionString() {
         Properties properties = getProperties();
         return properties.getProperty("redis.connection");
     }
 
-    public String getSentinelMasterName() {
+    String getSentinelMasterName() {
         Properties properties = getProperties();
         return properties.getProperty("redis.sentinel.master.group.name");
     }
 
-    public String getKeyContentData() {
+    String getKeyContentData() {
         Properties properties = getProperties();
-        return properties.getProperty("benchmark.key.content.data");
+        return properties.getProperty("benchmark.key.data");
     }
 
-    public boolean isSentinel() {
+    public Integer getAmountOfKeys() {
+        if (amountOfKeys > 0) {
+            return amountOfKeys;
+        }
+        Properties properties = getProperties();
+        amountOfKeys = Integer.parseInt(properties.getProperty("benchmark.key.amount"));
+        return amountOfKeys;
+    }
+
+    boolean isSentinel() {
         String redisConnection = getConnectionString();
         return redisConnection.contains("sentinel");
     }
 
-    public List<RedisURI> getRedisUris() {
+    List<RedisURI> getRedisUris() {
         String redisConnection = getConnectionString();
         redisConnection = redisConnection.replace("redis-sentinel://", "")
-                                         .replace("redis://", "");
+                .replace("redis://", "");
         List<RedisURI> uris = new ArrayList<>();
         String[] nodes = redisConnection.split(",");
         for (String node : nodes) {
