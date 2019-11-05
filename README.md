@@ -37,10 +37,22 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 
 ## sample benchmark results
 
-Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and 1 fork. 
+###### REDIS SENTINEL 
+
+Cloud: Huawei
+* Redis database and sentinel processes: 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908 each.
+* Java client benchmark: 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
+
+Benchmark Configuration
+* Amount of keys: 1MM
+* Key data size: 5K
+* Test benchmark with 1 warm-up, 1 measurement iteration, 1 thread and 1 fork.
+     - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's to **GET** data.
+     - It shows that Lettuce reactive API has more throughput compared with Jedis to **SET** data.
+ * Productive benchmark with 20 warm-up, 20 measurement iterations, 100 threads and 10 forks. 
 
 ```bash
-# Test of a non-productive scenario:
+# Test:
 
 java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 
@@ -67,6 +79,8 @@ RedisBenchmark.lettuceSimpleAsyncGet      avgt       0.225           ms/op
 RedisBenchmark.lettuceSimpleAsyncSet      avgt       0.112           ms/op
 RedisBenchmark.lettuceSimpleReactiveGet   avgt       0.235           ms/op
 RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
+
+# Productive:
 ```
 
 ## `jmh` command line options
