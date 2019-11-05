@@ -23,12 +23,12 @@ Copy config.cfg to the target folder with the jar file. Modify it to point to th
 	
 You can use your application payload to run this benchmark, you can also configure the amount of keys you want to have available to execute **GET** benchmarks. To do this just change the attributes *benchmark.key.amount* and *benchmark.key.data*.
  
-Benchmarks parameters:
+Parameter options:
 
-`-wi 20` *Warmup*  
-* 20 warmup cycles (Without measurement, providing the opportunity to the JVM to optimize the code before the measurement starts).
+`-wi 20` *Warm-up*  
+* 20 warm-up cycles (Without measurement, providing the opportunity to the JVM to optimize the code before the measurement starts).
 
-`-i 20` *Measurements*
+`-i 20` *Measurements iterations* 
 * 20 real measurement iterations for every test.
 
 `-t 10` *Threads*
@@ -70,7 +70,7 @@ Benchmark Configuration
 * Test benchmark with 1 warm-up, 1 measurement iteration, 1 thread and 1 fork.
      - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's to **GET** data.
      - It shows that Lettuce reactive API has more throughput compared with Jedis to **SET** data.
- * Productive benchmark with 20 warm-up, 20 measurement iterations, 100 threads and 10 forks.
+ * Productive benchmark with 20 warm-up, 20 measurement iterations, 10 threads and 10 forks.
     - Coming soon
 
 ```bash
@@ -263,4 +263,5 @@ Usage: java -jar ... [regexp*] [options]
 # references
    1. [jmh official site](http://openjdk.java.net/projects/code-tools/jmh/)
    1. [jmh sample benchmarks](http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/)
-   1. [Introduction to JMH by Mikhail Vorontsov (java-performance.info)](http://java-performance.info/jmh/)   
+   1. [Introduction to JMH by Mikhail Vorontsov (java-performance.info)](http://java-performance.info/jmh/)
+   1. [Avoiding Benchmarking Pitfalls on the JVM](https://www.oracle.com/technical-resources/articles/java/architect-benchmarking.html)
