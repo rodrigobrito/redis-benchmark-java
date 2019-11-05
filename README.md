@@ -14,14 +14,14 @@ Copy config.cfg to the target folder with the jar file. Modify it to point to th
  
 * Redis Sentinel Cluster Connection: 
 	- *redis-sentinel://192.168.1.104:26379,192.168.1.113:26379,192.168.1.124:26379*
-	- *Update redis.sentinel.master.name from config.cfg to sentinel monitor configured in redis-sentinel.conf*
+	- *Update redis.sentinel.master.name from config.cfg to sentinel group-name configured in redis-sentinel.conf*
 	    - *Sample: redis.sentinel.master.name=mymaster*
 * Redis Sharded Cluster Connection:
 	- *redis://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
 * Redis Standalone Connection: 
 	- *redis://192.168.1.104:6379*
 	
-You can use your application payload to run this benchmark, you can also configure the amount of keys you want to have available to execute GET benchmarks. To do this just change the attributes *benchmark.key.amount* and *benchmark.key.data*.
+You can use your application payload to run this benchmark, you can also configure the amount of keys you want to have available to execute **GET** benchmarks. To do this just change the attributes *benchmark.key.amount* and *benchmark.key.data*.
  
 To test connectivity:
 ```bash
@@ -40,7 +40,7 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 ###### REDIS SENTINEL 
 
 Cloud: Huawei
-* Redis database and sentinel processes: 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908 each.
+* Redis database and sentinel processes: 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.
 * Java client benchmark: 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
 
 Benchmark Configuration
@@ -49,7 +49,8 @@ Benchmark Configuration
 * Test benchmark with 1 warm-up, 1 measurement iteration, 1 thread and 1 fork.
      - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's to **GET** data.
      - It shows that Lettuce reactive API has more throughput compared with Jedis to **SET** data.
- * Productive benchmark with 20 warm-up, 20 measurement iterations, 100 threads and 10 forks. 
+ * Productive benchmark with 20 warm-up, 20 measurement iterations, 100 threads and 10 forks.
+    - Coming soon
 
 ```bash
 # Test:
