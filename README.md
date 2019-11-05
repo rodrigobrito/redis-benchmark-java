@@ -45,7 +45,7 @@ Cloud: Huawei
 
 Benchmark Configuration
 * Amount of keys: 1MM
-* Key data size: 5K
+* Key data size: 5 KB
 * Test benchmark with 1 warm-up, 1 measurement iteration, 1 thread and 1 fork.
      - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's to **GET** data.
      - It shows that Lettuce reactive API has more throughput compared with Jedis to **SET** data.
