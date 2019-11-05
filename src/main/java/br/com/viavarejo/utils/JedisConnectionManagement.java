@@ -60,7 +60,7 @@ public final class JedisConnectionManagement {
         }
     }
 
-    private JedisCommands getJedisConnection() {
+    private JedisCommands getJedisCommand() {
         JedisCommands commands = null;
         switch (connectionType) {
             case Standalone:
@@ -76,9 +76,9 @@ public final class JedisConnectionManagement {
         return commands;
     }
 
-    public static JedisCommands get() {
+    public static JedisCommands getCommand() {
         if (!connectionCreated)
             connectionManagement.createJedisConnection();
-        return connectionManagement.getJedisConnection();
+        return connectionManagement.getJedisCommand();
     }
 }
