@@ -36,7 +36,7 @@ public class RedisBenchmark {
     public void setup() {
         Util.createOneMillionOfKeys();
 
-        jedis = JedisConnectionManagement.getCommand();
+        jedis = JedisConnectionManagement.getCommands();
         lettuce = LettuceConnectionManagement.get();
     }
 

@@ -10,7 +10,7 @@ public final class Util {
     }
 
     public static void createOneMillionOfKeys() {
-        JedisCommands commands = JedisConnectionManagement.getCommand();
+        JedisCommands commands = JedisConnectionManagement.getCommands();
         String keysCreated = commands.get(BenchmarkKeysCreated);
         if (keysCreated != null && keysCreated.equals("y")) {
             return;
@@ -22,13 +22,14 @@ public final class Util {
             progressPercentage(i, amountOfKeys);
             try {
                 String keyName = String.format(Util.KeyPrefix, i);
-                commands = JedisConnectionManagement.getCommand();
                 commands.set(keyName, data);
             } catch (Exception e) {
+                i--;
+                commands = JedisConnectionManagement.getCommands();
                 e.printStackTrace();
             }
         }
-        commands = JedisConnectionManagement.getCommand();
+
         commands.set(BenchmarkKeysCreated, "y");
         commands.expire(BenchmarkKeysCreated, 28800);
     }
