@@ -1,6 +1,7 @@
 package br.com.viavarejo.utils;
 
 import io.lettuce.core.RedisURI;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.*;
 
 import java.util.HashSet;
@@ -9,38 +10,48 @@ import java.util.Set;
 
 public final class JedisConnectionManagement {
     private static final JedisConnectionManagement connectionManagement = new JedisConnectionManagement();
-    private JedisCommands jedisCommands;
+    private static Boolean connectionCreated = false;
+
+    private Jedis jedisStandalone;
+    private JedisSentinelPool jedisSentinelPool;
+    private JedisCluster jedisCluster;
+    private ConnectionType connectionType = ConnectionType.Standalone;
 
     private JedisConnectionManagement() {
     }
 
-    private JedisCommands createJedisConnection() {
+    private void createJedisConnection() {
         try {
             List<RedisURI> uris = BenchmarkConfiguration.get().getRedisUris();
             // Standalone
             if (uris.size() == 1) {
+                connectionType = ConnectionType.Standalone;
                 RedisURI redisUri = uris.get(0);
                 String redisHost = redisUri.getHost();
                 int redisPort = redisUri.getPort();
-                return new Jedis(redisHost, redisPort);
+                jedisStandalone = new Jedis(redisHost, redisPort);
             }
             // Sentinel
             if (BenchmarkConfiguration.get().isSentinel()) {
+                connectionType = ConnectionType.Sentinel;
                 Set sentinels = new HashSet();
                 for (RedisURI redisUri : uris) {
                     sentinels.add(String.format("%s:%s", redisUri.getHost(), redisUri.getPort()));
                 }
                 String masterName = BenchmarkConfiguration.get().getSentinelMasterName();
-                JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinels);
-                return pool.getResource();
+                GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+                config.setMaxTotal(2);
+                config.setBlockWhenExhausted(false);
+                JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinels, config,2000);
+                jedisSentinelPool = pool;
             }
-
             // Cluster
+            connectionType = ConnectionType.Cluster;
             Set<HostAndPort> jedisClusterNodes = new HashSet<>();
             for (RedisURI redisUri : uris) {
                 jedisClusterNodes.add(new HostAndPort(redisUri.getHost(), redisUri.getPort()));
             }
-            return new JedisCluster(jedisClusterNodes);
+            jedisCluster = new JedisCluster(jedisClusterNodes);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -48,12 +59,24 @@ public final class JedisConnectionManagement {
     }
 
     private JedisCommands getJedisConnection() {
-        if (jedisCommands == null)
-            jedisCommands = createJedisConnection();
-        return jedisCommands;
+        JedisCommands commands = null;
+        switch (connectionType) {
+            case Standalone:
+                commands = jedisStandalone;
+                break;
+            case Sentinel:
+                commands = jedisSentinelPool.getResource();
+                break;
+            case Cluster:
+                commands = jedisCluster;
+                break;
+        }
+        return commands;
     }
 
     public static JedisCommands get() {
+        if (!connectionCreated)
+            connectionManagement.createJedisConnection();
         return connectionManagement.getJedisConnection();
     }
 }

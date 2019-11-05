@@ -15,12 +15,6 @@ import io.lettuce.core.masterslave.StatefulRedisMasterSlaveConnection;
 import java.util.List;
 
 public final class LettuceConnectionManagement {
-    private enum ConnectionType {
-        Standalone,
-        Sentinel,
-        Cluster
-    }
-
     private static LettuceConnectionManagement connectionManagement;
 
     private StatefulRedisClusterConnection<String, String> cluster;
