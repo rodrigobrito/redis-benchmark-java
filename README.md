@@ -83,6 +83,12 @@ RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
 
 # Productive:
 ```
+## remark
+###### Jedis
+In each benchmark method we have a `try-catch` so that in a failover scenario a new master or slave can be elected.
+* `JedisConnectionManagement.getCommands()` call `jedisPool.getResource()` to resolve a new master/slave in a **Sentinel Cluster**.
+###### Lettuce
+* Coming soon
 
 ## `jmh` command line options
 
