@@ -30,6 +30,7 @@ public final class JedisConnectionManagement {
                 String redisHost = redisUri.getHost();
                 int redisPort = redisUri.getPort();
                 jedisStandalone = new Jedis(redisHost, redisPort);
+                return;
             }
             // Sentinel
             if (BenchmarkConfiguration.get().isSentinel()) {
@@ -44,6 +45,7 @@ public final class JedisConnectionManagement {
                 config.setBlockWhenExhausted(false);
                 JedisSentinelPool pool = new JedisSentinelPool(masterName, sentinels, config,2000);
                 jedisSentinelPool = pool;
+                return;
             }
             // Cluster
             connectionType = ConnectionType.Cluster;
