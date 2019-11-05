@@ -10,7 +10,8 @@ Requirements
 
 To run the benchmarks:
 
-Copy the config.cfg to the target folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated. 
+Copy config.cfg to the target folder with the jar file. Modify it to point to the redis instance. Multiple redis instances are coma separated.
+ 
 * Redis Sentinel Cluster Connection: 
 	- *redis-sentinel://192.168.1.104:26379,192.168.1.113:26379,192.168.1.124:26379*
 	- *Update redis.sentinel.master.name from config.cfg to sentinel monitor configured in redis-sentinel.conf*
@@ -19,6 +20,8 @@ Copy the config.cfg to the target folder with the jar file. Modify it to point t
 	- *redis://192.168.1.104:6379,192.168.1.113:6379,192.168.1.124:6379*
 * Redis Standalone Connection: 
 	- *redis://192.168.1.104:6379*
+	
+You can use your application payload to run this benchmark, you can also configure the amount of keys you want to have available to execute GET benchmarks. To do this just change the attributes *benchmark.key.amount* and *benchmark.key.data*.
  
 To test connectivity:
 ```bash
@@ -37,11 +40,19 @@ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 Here is some sample benchmark results. It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's using 1 iterations to warmup, 1 thread and 1 fork. 
 
 ```bash
-#Simply test:
+# Test of a non-productive scenario:
 
 java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 
 # Run complete. Total time: 00:02:27
+
+# Best throughput (thrpt):
+# GET - Jedis simple get: 5.710 operations per millisecond or 5,710 operations per second.
+# SET - Lettuce simple reactive set: 8.928 operations per millisecond or 8,928 operations per second.
+
+# Best average time (avgt):
+# GET - Jedis simple get: 0.156 millisecond (1 and a half microseconds) per operation.
+# SET - Lettuce simple reactive set: 0.110 millisecond (1 microsecond) per operation. 
 
 Benchmark                                 Mode  Cnt  Score   Error   Units
 RedisBenchmark.jedisSimpleGet            thrpt       5.710          ops/ms
