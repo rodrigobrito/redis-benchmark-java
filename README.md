@@ -23,16 +23,37 @@ Copy config.cfg to the target folder with the jar file. Modify it to point to th
 	
 You can use your application payload to run this benchmark, you can also configure the amount of keys you want to have available to execute **GET** benchmarks. To do this just change the attributes *benchmark.key.amount* and *benchmark.key.data*.
  
+Benchmarks parameters:
+
+`-wi 20` *Warmup*  
+* 20 warmup cycles (Without measurement, providing the opportunity to the JVM to optimize the code before the measurement starts).
+
+`-i 20` *Measurements*
+* 20 real measurement iterations for every test.
+
+`-t 10` *Threads*
+
+* Amount of threads to run benchmark.
+
+`-f 10` *Forks*
+* Separate execution environments.
+
+To build:
+```bash
+$ git clone https://github.com/rodrigobrito/redis-benchmark-java.git
+$ cd redis-benchmark-java
+$ mvn clean install
+```
+
 To test connectivity:
 ```bash
-mvn clean install
-java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
+$ cp config.cfg ./target/
+$ java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 ```
 
 To run benchmark with 20 iterations to warmup "-wi 20", 20 iterations to measurements "-i 20", 10 threads "-t 10" and 10 forks "-f 10":
 ```bash
-mvn clean install
-java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 ```
 
 ## sample benchmark results
