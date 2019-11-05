@@ -46,13 +46,25 @@ public class RedisBenchmark {
             jedisGetCount = 0;
         }
         jedisGetCount++;
-        return jedis.get(String.format(Util.KeyPrefix, jedisGetCount));
+        String result = null;
+        try {
+            result = jedis.get(String.format(Util.KeyPrefix, jedisGetCount));
+        } catch (Exception e) {
+            jedis = JedisConnectionManagement.getCommands();
+        }
+        return result;
     }
 
     @Benchmark
-    public void jedisSimpleSet() {
+    public String jedisSimpleSet() {
         jedisSetCount++;
-        jedis.set(String.format("JedisSetTest%s", jedisSetCount), jedisSetCount.toString());
+        String result = null;
+        try {
+            result = jedis.set(String.format("JedisSetTest%s", jedisSetCount), jedisSetCount.toString());
+        }  catch (Exception e) {
+            jedis = JedisConnectionManagement.getCommands();
+        }
+        return result;
     }
 
     @Benchmark

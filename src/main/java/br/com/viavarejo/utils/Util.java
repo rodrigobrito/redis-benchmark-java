@@ -1,6 +1,7 @@
 package br.com.viavarejo.utils;
 
 import redis.clients.jedis.JedisCommands;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public final class Util {
     public static final String KeyPrefix = "Benchmark%s";
@@ -23,9 +24,8 @@ public final class Util {
             try {
                 String keyName = String.format(Util.KeyPrefix, i);
                 commands.set(keyName, data);
-            } catch (Exception e) {
+            } catch (JedisConnectionException e) { // Try to get new master when new master is elected. (Sentinel scenario)
                 e.printStackTrace();
-                // Try to get new master when new master is elected. (Sentinel scenario)
                 try {
                     commands = JedisConnectionManagement.getCommands(); // pool.getResources()
                 } catch (Exception ex) {
