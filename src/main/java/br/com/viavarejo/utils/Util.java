@@ -24,9 +24,15 @@ public final class Util {
                 String keyName = String.format(Util.KeyPrefix, i);
                 commands.set(keyName, data);
             } catch (Exception e) {
-                i--;
-                commands = JedisConnectionManagement.getCommands();
                 e.printStackTrace();
+                // Try to get new master when new master is elected. (Sentinel scenario)
+                try {
+                    commands = JedisConnectionManagement.getCommands(); // pool.getResources()
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    i--;
+                }
             }
         }
 
