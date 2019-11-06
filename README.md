@@ -106,6 +106,8 @@ RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
 
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 1 -f 1
 
+# Run complete. Total time: 02:16:53
+
 Benchmark                                 Mode  Cnt   Score   Error   Units
 RedisBenchmark.jedisSimpleGet            thrpt   20   5.935 ± 0.303  ops/ms
 RedisBenchmark.jedisSimpleSet            thrpt   20  10.680 ± 1.053  ops/ms
