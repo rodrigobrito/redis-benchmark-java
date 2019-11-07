@@ -106,21 +106,23 @@ RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
 
 # Productive:
 
-$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 1 -f 1
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 5 -f 3
+
+# Run complete. Total time: 00:34:00
 
 Benchmark                                 Mode  Cnt   Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt   20   5.935 ± 0.303  ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt   20  10.680 ± 1.053  ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt   20   4.214 ± 0.222  ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt   20   8.920 ± 0.123  ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt   20   4.260 ± 0.219  ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt   20   8.835 ± 0.209  ops/ms
-RedisBenchmark.jedisSimpleGet             avgt   20   0.169 ± 0.011   ms/op
-RedisBenchmark.jedisSimpleSet             avgt   20   0.126 ± 0.036   ms/op
-RedisBenchmark.lettuceSimpleAsyncGet      avgt   20   0.232 ± 0.006   ms/op
-RedisBenchmark.lettuceSimpleAsyncSet      avgt   20   0.111 ± 0.002   ms/op
-RedisBenchmark.lettuceSimpleReactiveGet   avgt   20   0.225 ± 0.006   ms/op
-RedisBenchmark.lettuceSimpleReactiveSet   avgt   20   0.120 ± 0.003   ms/op
+RedisBenchmark.jedisSimpleGet            thrpt   15  19.275 ± 4.913  ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt   15  80.760 ± 1.478  ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt   15   9.969 ± 0.232  ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt   15  49.391 ± 7.680  ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt   15   9.947 ± 1.055  ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt   15  48.486 ± 5.116  ops/ms
+RedisBenchmark.jedisSimpleGet             avgt   15   0.564 ± 0.125   ms/op
+RedisBenchmark.jedisSimpleSet             avgt   15   0.125 ± 0.002   ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt   15   0.958 ± 0.017   ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt   15   0.194 ± 0.027   ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt   15   0.958 ± 0.025   ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt   15   0.234 ± 0.057   ms/op
 ```
 
 ###### REDIS CLUSTER 
