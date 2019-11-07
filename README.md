@@ -56,7 +56,7 @@ To run benchmark with 20 iterations to warmup "-wi 20", 20 iterations to measure
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
 ```
 
-## sample benchmark results
+## benchmark results
 
 ###### REDIS SENTINEL 
 
@@ -78,17 +78,17 @@ Benchmark Configuration
 ```bash
 # Test:
 
-$ java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
-
-# Run complete. Total time: 00:02:27
-
 # Best throughput (thrpt):
 # GET - Jedis simple get: 5.710 operations per millisecond or 5,710 operations per second.
 # SET - Lettuce simple reactive set: 8.928 operations per millisecond or 8,928 operations per second.
 
 # Best average time (avgt):
 # GET - Jedis simple get: 0.156 millisecond (1 and a half microseconds) per operation.
-# SET - Lettuce simple reactive set: 0.110 millisecond (1 microsecond) per operation. 
+# SET - Lettuce simple reactive set: 0.110 millisecond (1 microsecond) per operation.
+
+$ java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1 
+
+# Run complete. Total time: 00:02:27
 
 Benchmark                                 Mode  Cnt  Score   Error   Units
 RedisBenchmark.jedisSimpleGet            thrpt       5.710          ops/ms
@@ -112,8 +112,25 @@ Coming soon...
 
 ###### REDIS CLUSTER
 
+Cloud: Huawei
+* 6 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
+    - Three masters and three replicas (One processes per node)
+* 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
+    - Java client benchmark 
+    
+Benchmark Configuration
+* Amount of keys: 1MM
+* Key data size: 5 KB
+* Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
+  - It shows that Lettuce reactive API has more throughput compared with Jedis to **GET** data.
+  - It shows that Lettuce async API has more throughput compared with Jedis to **SET** data.
+
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
+
+# Best throughput (thrpt):
+# GET - Lettuce simple reactive get: 19.598 operations per millisecond or 19,598 operations per second.
+# SET - Lettuce simple async set: 220.132 operations per millisecond or 220,132 operations per second.
 
 # Run complete. Total time: 02:24:08
 
