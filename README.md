@@ -62,7 +62,7 @@ $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 
 Cloud: Huawei
 * 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
-    - One master and two replicas
+    - One master and two replicas (Two processes per node: Redis and Sentinel)
 * 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
     - Java client benchmark 
 
@@ -125,7 +125,7 @@ RedisBenchmark.lettuceSimpleReactiveGet   avgt   15   0.958 ± 0.025   ms/op
 RedisBenchmark.lettuceSimpleReactiveSet   avgt   15   0.234 ± 0.057   ms/op
 ```
 
-###### REDIS CLUSTER 
+###### REDIS CLUSTER
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
