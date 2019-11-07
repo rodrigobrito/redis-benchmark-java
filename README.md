@@ -111,21 +111,21 @@ $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
 # Run complete. Total time: 02:11:18
 
 Benchmark                                 Mode  Cnt    Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt   60   18.339 ± 1.615  ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt   60  144.416 ± 1.943  ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt   60   12.270 ± 0.235  ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt   60  131.237 ± 0.774  ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt   60   12.481 ± 0.110  ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt   60  125.046 ± 1.227  ops/ms
-RedisBenchmark.jedisSimpleGet             avgt   40    7.672 ± 1.247   ms/op
-RedisBenchmark.jedisSimpleSet             avgt   60    0.685 ± 0.012   ms/op
-RedisBenchmark.lettuceSimpleAsyncGet      avgt   60    8.107 ± 0.066   ms/op
-RedisBenchmark.lettuceSimpleAsyncSet      avgt   60    0.752 ± 0.007   ms/op
-RedisBenchmark.lettuceSimpleReactiveGet   avgt   60    8.108 ± 0.107   ms/op
-RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.826 ± 0.014   ms/op
+RedisBenchmark.jedisSimpleGet            thrpt   60   17.858 ± 1.022  ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt   60  143.064 ± 2.235  ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt   60   12.284 ± 0.151  ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt   60  131.441 ± 0.484  ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt   60   12.299 ± 0.060  ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt   60  122.818 ± 1.385  ops/ms
+RedisBenchmark.jedisSimpleGet             avgt   40    7.587 ± 1.216   ms/op
+RedisBenchmark.jedisSimpleSet             avgt   60    0.704 ± 0.010   ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt   60    8.037 ± 0.056   ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt   60    0.770 ± 0.012   ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt   60    8.063 ± 0.039   ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.806 ± 0.005   ms/op
 ```
 
-`Productive throughput`
+`Throughput`
 <br/>
 <img src="https://raw.githubusercontent.com/rodrigobrito/redis-benchmark-java/master/img/BenchmarkRedisSentinelThroughput-wi20-i20-t100-f3.png"/>
 <br/>
