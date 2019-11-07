@@ -147,7 +147,7 @@ RedisBenchmark.lettuceSimpleReactiveGet   avgt   60    5.266 ± 0.240   ms/op
 RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.485 ± 0.009   ms/op
 ```
 
-Throughput
+`Throughput`
 <br/>
 <img src="https://raw.githubusercontent.com/rodrigobrito/redis-benchmark-java/master/img/BenchmarkRedisClustertThroughput-wi20-i20-t100-f3.png"/>
 <br/>
