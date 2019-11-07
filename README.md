@@ -45,15 +45,15 @@ $ cd redis-benchmark-java
 $ mvn clean install
 ```
 
-To test connectivity:
+Test connectivity and create keys to execute the **GET** benchmarks:
 ```bash
 $ cp config.cfg ./target/
 $ java -jar target/benchmarks.jar -wi 1 -i 1 -t 1 -f 1
 ```
 
-To run benchmark with 20 iterations to warmup "-wi 20", 20 iterations to measurements "-i 20", 10 threads "-t 10" and 10 forks "-f 10":
+To run benchmark with 20 iterations to warmup "-wi 20", 20 iterations to measurements "-i 20", 100 threads "-t 100" and 3 forks "-f 3":
 ```bash
-$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
 ```
 
 ## sample benchmark results
@@ -72,8 +72,8 @@ Benchmark Configuration
 * Test benchmark with 1 warm-up, 1 measurement iteration, 1 thread and 1 fork.
      - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's to **GET** data.
      - It shows that Lettuce reactive API has more throughput compared with Jedis to **SET** data.
- * Productive benchmark with 20 warm-up, 20 measurement iterations, 10 threads and 10 forks.
-    - Coming soon
+ * Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
+    - Coming soon...
 
 ```bash
 # Test:
@@ -104,25 +104,10 @@ RedisBenchmark.lettuceSimpleAsyncSet      avgt       0.112           ms/op
 RedisBenchmark.lettuceSimpleReactiveGet   avgt       0.235           ms/op
 RedisBenchmark.lettuceSimpleReactiveSet   avgt       0.110           ms/op
 
-# Productive:
+# Productive benchmark:
 
-$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 5 -f 3
-
-# Run complete. Total time: 00:34:00
-
-Benchmark                                 Mode  Cnt   Score   Error   Units
-RedisBenchmark.jedisSimpleGet            thrpt   15  19.275 ± 4.913  ops/ms
-RedisBenchmark.jedisSimpleSet            thrpt   15  80.760 ± 1.478  ops/ms
-RedisBenchmark.lettuceSimpleAsyncGet     thrpt   15   9.969 ± 0.232  ops/ms
-RedisBenchmark.lettuceSimpleAsyncSet     thrpt   15  49.391 ± 7.680  ops/ms
-RedisBenchmark.lettuceSimpleReactiveGet  thrpt   15   9.947 ± 1.055  ops/ms
-RedisBenchmark.lettuceSimpleReactiveSet  thrpt   15  48.486 ± 5.116  ops/ms
-RedisBenchmark.jedisSimpleGet             avgt   15   0.564 ± 0.125   ms/op
-RedisBenchmark.jedisSimpleSet             avgt   15   0.125 ± 0.002   ms/op
-RedisBenchmark.lettuceSimpleAsyncGet      avgt   15   0.958 ± 0.017   ms/op
-RedisBenchmark.lettuceSimpleAsyncSet      avgt   15   0.194 ± 0.027   ms/op
-RedisBenchmark.lettuceSimpleReactiveGet   avgt   15   0.958 ± 0.025   ms/op
-RedisBenchmark.lettuceSimpleReactiveSet   avgt   15   0.234 ± 0.057   ms/op
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
+Coming soon...
 ```
 
 ###### REDIS CLUSTER
