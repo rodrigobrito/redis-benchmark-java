@@ -61,8 +61,10 @@ $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 10 -f 10
 ###### REDIS SENTINEL 
 
 Cloud: Huawei
-* Redis database and sentinel processes: 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.
-* Java client benchmark: 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
+* 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
+    - One master and two replicas
+* 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
+    - Java client benchmark 
 
 Benchmark Configuration
 * Amount of keys: 1MM
@@ -120,6 +122,31 @@ RedisBenchmark.lettuceSimpleAsyncSet      avgt   20   0.111 ± 0.002   ms/op
 RedisBenchmark.lettuceSimpleReactiveGet   avgt   20   0.225 ± 0.006   ms/op
 RedisBenchmark.lettuceSimpleReactiveSet   avgt   20   0.120 ± 0.003   ms/op
 ```
+
+###### REDIS CLUSTER 
+
+```bash
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
+
+# Run complete. Total time: 02:24:08
+
+Benchmark                                 Mode  Cnt    Score   Error   Units
+RedisBenchmark.jedisSimpleGet            thrpt   60   18.842 ± 1.491  ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt   60  150.455 ± 5.209  ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt   60   19.377 ± 0.860  ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt   60  220.132 ± 3.128  ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt   60   19.598 ± 0.976  ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt   60  207.576 ± 2.282  ops/ms
+RedisBenchmark.jedisSimpleGet             avgt   60    8.164 ± 2.166   ms/op
+RedisBenchmark.jedisSimpleSet             avgt   60    0.668 ± 0.024   ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt   60    5.245 ± 0.271   ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt   60    0.462 ± 0.008   ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt   60    5.266 ± 0.240   ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.485 ± 0.009   ms/op
+```
+
+
+
 ## remark
 ###### Jedis
 In each benchmark method we have a `try-catch` so that in a failover scenario a new master or slave can be elected.
