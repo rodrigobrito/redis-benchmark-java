@@ -58,7 +58,7 @@ $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
 
 ## benchmark results
 
-##### REDIS SENTINEL 
+#### REDIS SENTINEL 
 
 Cloud: Huawei
 * 3 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
@@ -71,8 +71,8 @@ Benchmark Configuration
 * Key data size: 5 KB
 * Benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
    - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's.
-   	-- *jedisSimpleGet*: 17.858 operations per millisecond or 17,858 operations per second
-   	-- *jedisSimpleSet*: 143.064 operations per millisecond or 143,064 operations per second
+   	 -- *jedisSimpleGet*: 17.858 operations per millisecond or 17,858 operations per second
+	 -- *jedisSimpleSet*: 143.064 operations per millisecond or 143,064 operations per second
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
@@ -99,8 +99,9 @@ RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.806 ± 0.005   ms/op
 <img src="https://raw.githubusercontent.com/rodrigobrito/redis-benchmark-java/master/img/BenchmarkRedisSentinelThroughput-wi20-i20-t100-f3.png"/>
 <br/>
 
-###### REDIS CLUSTER
+#### REDIS CLUSTER
 
+###### REDIS CLUSTER WITH 6 PROCESSES
 Cloud: Huawei
 * 6 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
     - Three masters and three replicas (One processes per node)
@@ -112,14 +113,12 @@ Benchmark Configuration
 * Key data size: 5 KB
 * Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
   - It shows that Lettuce reactive API has more throughput compared with Jedis to **GET** data.
+    -- lettuceSimpleReactiveGet: 19.598 operations per millisecond or 19,598 operations per second.
   - It shows that Lettuce async API has more throughput compared with Jedis to **SET** data.
+    -- lettuceSimpleAsyncSet: 220.132 operations per millisecond or 220,132 operations per second.
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
-
-# Best throughput (thrpt):
-# GET - Lettuce simple reactive get: 19.598 operations per millisecond or 19,598 operations per second.
-# SET - Lettuce simple async set: 220.132 operations per millisecond or 220,132 operations per second.
 
 # Run complete. Total time: 02:24:08
 
@@ -142,6 +141,38 @@ RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.485 ± 0.009   ms/op
 <br/>
 <img src="https://raw.githubusercontent.com/rodrigobrito/redis-benchmark-java/master/img/BenchmarkRedisClustertThroughput-wi20-i20-t100-f3.png"/>
 <br/>
+
+###### REDIS CLUSTER WITH 18 PROCESSES
+Cloud: Huawei
+* 6 nodes of 4 vCPUs, 32 GB and CentOS Linux release 7.7.1908.         
+    - Nine masters and nine replicas (Three processes per node)
+* 1 node of 4 vCPUs, 16 GB and CentOS Linux release 7.7.1908
+    - Java client benchmark 
+
+Benchmark Configuration
+* Amount of keys: 1MM
+* Key data size: 5 KB
+* Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
+
+```bash
+$ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
+
+# Run complete. Total time: 03:25:21
+
+Benchmark                                 Mode  Cnt    Score   Error   Units
+RedisBenchmark.jedisSimpleGet            thrpt   60   17.849 ± 1.382  ops/ms
+RedisBenchmark.jedisSimpleSet            thrpt   60  148.972 ± 2.721  ops/ms
+RedisBenchmark.lettuceSimpleAsyncGet     thrpt   60   19.270 ± 0.749  ops/ms
+RedisBenchmark.lettuceSimpleAsyncSet     thrpt   60  190.753 ± 1.663  ops/ms
+RedisBenchmark.lettuceSimpleReactiveGet  thrpt   60   19.172 ± 0.786  ops/ms
+RedisBenchmark.lettuceSimpleReactiveSet  thrpt   60  171.120 ± 2.064  ops/ms
+RedisBenchmark.jedisSimpleGet             avgt   60   11.856 ± 6.425   ms/op
+RedisBenchmark.jedisSimpleSet             avgt   60    0.676 ± 0.020   ms/op
+RedisBenchmark.lettuceSimpleAsyncGet      avgt   60    5.287 ± 0.180   ms/op
+RedisBenchmark.lettuceSimpleAsyncSet      avgt   60    0.526 ± 0.007   ms/op
+RedisBenchmark.lettuceSimpleReactiveGet   avgt   60    5.287 ± 0.201   ms/op
+RedisBenchmark.lettuceSimpleReactiveSet   avgt   60    0.566 ± 0.011   ms/op
+```
 
 ## remark
 ###### Jedis
