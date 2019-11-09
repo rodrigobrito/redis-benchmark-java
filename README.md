@@ -71,8 +71,8 @@ Benchmark Configuration
 * Key data size: 5 KB
 * Benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
    - It shows that Jedis client has more throughput compared with lettuce ASYNC and REACTIVE API's.
-   	 -- *jedisSimpleGet*: 17.858 operations per millisecond or 17,858 operations per second
-	 -- *jedisSimpleSet*: 143.064 operations per millisecond or 143,064 operations per second
+   	- *jedisSimpleGet*: 17.858 operations per millisecond or 17,858 operations per second
+	- *jedisSimpleSet*: 143.064 operations per millisecond or 143,064 operations per second
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3
@@ -113,9 +113,9 @@ Benchmark Configuration
 * Key data size: 5 KB
 * Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
   - It shows that Lettuce reactive API has more throughput compared with Jedis to **GET** data.
-    -- lettuceSimpleReactiveGet: 19.598 operations per millisecond or 19,598 operations per second.
+  	- lettuceSimpleReactiveGet: 19.598 operations per millisecond or 19,598 operations per second.
   - It shows that Lettuce async API has more throughput compared with Jedis to **SET** data.
-    -- lettuceSimpleAsyncSet: 220.132 operations per millisecond or 220,132 operations per second.
+  	- lettuceSimpleAsyncSet: 220.132 operations per millisecond or 220,132 operations per second.
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
@@ -153,6 +153,10 @@ Benchmark Configuration
 * Amount of keys: 1MM
 * Key data size: 5 KB
 * Productive benchmark with 20 warm-up, 20 measurements iterations, 100 threads and 3 forks.
+  - It shows that Lettuce async API has more throughput compared with Jedis to **GET** data.
+  	- lettuceSimpleAsyncGet: 19.270 operations per millisecond or 19,270 operations per second.
+  - It shows that Lettuce async API has more throughput compared with Jedis to **SET** data.
+  	- lettuceSimpleAsyncSet: 190.753 operations per millisecond or 220,132 operations per second.
 
 ```bash
 $ java -jar target/benchmarks.jar -wi 20 -i 20 -t 100 -f 3 
